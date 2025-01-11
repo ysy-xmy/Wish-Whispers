@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar } from "@/components/ui/calendar"
-import { Bell, Gift, PenSquare, Calendar as CalendarIcon, Settings } from "lucide-react"
+import { Bell, Gift, PenSquare, Calendar as CalendarIcon, Settings, Users } from "lucide-react"
 import { useRouter } from 'next/navigation'
 import { ReminderEventForm } from "@/components/reminders/ReminderEventForm"
 
@@ -90,6 +90,10 @@ export default function Home() {
             <Button className="w-full justify-start" variant="outline" size="lg" onClick={() => setIsReminderFormOpen(true)}>
               <Settings className="mr-2 h-5 w-5" />
               创建提醒事件
+            </Button>
+            <Button className="w-full justify-start" variant="outline" size="lg" onClick={() => router.push('/contacts')}>
+              <Users className="mr-2 h-5 w-5" />
+              管理联系人
             </Button>
           </CardContent>
         </Card>
