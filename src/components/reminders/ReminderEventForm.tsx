@@ -1,13 +1,11 @@
 import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { useRouter } from 'next/navigation'
 import { ContactSelector } from './ContactSelector'
 import { ReminderTypeSelector } from './ReminderTypeSelector'
 import { DateAndDaysSelector } from './DateAndDaysSelector'
+import { useRouter } from 'next/navigation'
 
 interface ContactConfig {
   id: number
@@ -28,8 +26,6 @@ interface ReminderEvent {
 
 interface ReminderEventFormProps {
   contacts: ContactConfig[]
-  isOpen: boolean
-  onClose: () => void
   onSave: (event: ReminderEvent) => void
 }
 
@@ -39,7 +35,7 @@ const traditionalFestivals = [
   { name: "中秋节", date: "2024-09-17" }
 ]
 
-export function ReminderEventForm({ contacts, isOpen, onClose, onSave }: ReminderEventFormProps) {
+export function ReminderEventForm({ contacts, onSave }: ReminderEventFormProps) {
   const [formState, setFormState] = useState<ReminderEvent>({
     title: '',
     message: '',
@@ -88,32 +84,30 @@ export function ReminderEventForm({ contacts, isOpen, onClose, onSave }: Reminde
 
   const handleSubmit = () => {
     onSave(formState)
-    onClose()
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>创建提醒事件</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="title">提醒任务标题</Label>
-            <Input id="title" value={formState.title} onChange={handleChange} className="border rounded-md" />
-          </div>
-          <ContactSelector contacts={contacts} selectedContactId={formState.contactId} onChange={handleContactChange} />
-          <ReminderTypeSelector type={formState.type} onTypeChange={handleTypeChange} onFestivalChange={handleFestivalChange} festivals={traditionalFestivals} />
-          <div>
-            <Label htmlFor="message">祝福语</Label>
-            <Textarea id="message" value={formState.message} onChange={handleChange} className="border rounded-md" />
-          </div>
-          <DateAndDaysSelector date={formState.date} daysBefore={formState.daysBefore} onDateChange={handleChange} onDaysBeforeChange={handleDaysBeforeChange} />
-          <Button onClick={handleSubmit} className="w-full bg-primary text-white mt-4">
-            保存事件
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-6">
+      <h2 className="text-xl font-bold text-center text-primary">创建提醒事件</h2>
+      <div>
+        <Label htmlFor="title">提醒任务标题</Label>
+        <Input id="title" value={formState.title} onChange={handleChange} className="border rounded-md w-full" />
+      </div>
+      <ContactSelector contacts={contacts} selectedContactId={formState.contactId} onChange={handleContactChange} />
+      <ReminderTypeSelector type={formState.type} onTypeChange={handleTypeChange} onFestivalChange={handleFestivalChange} festivals={traditionalFestivals} />
+      <div>
+        <Label htmlFor="message">祝福语</Label>
+        <Textarea id="message" value={formState.message} onChange={handleChange} className="border rounded-md w-full" />
+      </div>
+      <DateAndDaysSelector date={formState.date} daysBefore={formState.daysBefore} onDateChange={handleChange} onDaysBeforeChange={handleDaysBeforeChange} />
+      <div className="flex justify-between">
+        <button onClick={handleSubmit} className="bg-primary text-white py-2 px-4 rounded-md">
+          保存事件
+        </button>
+        <button onClick={() => router.push('/')} className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md">
+          返回主页
+        </button>
+      </div>
+    </div>
   )
 }
