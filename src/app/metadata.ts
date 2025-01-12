@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "节日织梦",
-  description: "生日心语 - 不错过每一个值得纪念的日子",
-}; 
+  title: "轻语祝福",
+  description: "记录生活点滴，传递温暖祝福",
+  // ... other metadata
+}
